@@ -471,7 +471,7 @@ class ReactExoplayerView extends FrameLayout implements
 
     @Override
     public void onPlayerError(ExoPlaybackException e) {
-        String errorString = null;
+        String errorString = "unknown";
         if (e.type == ExoPlaybackException.TYPE_RENDERER) {
             Exception cause = e.getRendererException();
             if (cause instanceof MediaCodecRenderer.DecoderInitializationException) {
@@ -493,6 +493,8 @@ class ReactExoplayerView extends FrameLayout implements
                             decoderInitializationException.decoderName);
                 }
             }
+        } else if (e.type == ExoPlaybackException.TYPE_SOURCE) {
+            errorString = "source";
         }
         if (errorString != null) {
             eventEmitter.error(errorString, e);
